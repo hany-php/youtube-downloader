@@ -2,9 +2,17 @@
 
 namespace YouTube;
 
+/**
+ * Parser for YouTube video format information
+ */
 class Parser
 {
-    public function downloadFormats()
+    /**
+     * Download format information from youtube-dl repository (not recommended due to external dependency)
+     *
+     * @return array Format information
+     */
+    public function downloadFormats(): array
     {
         $data = file_get_contents("https://raw.githubusercontent.com/ytdl-org/youtube-dl/master/youtube_dl/extractor/youtube.py");
 
@@ -28,7 +36,13 @@ class Parser
         return array();
     }
 
-    public function transformFormats($formats)
+    /**
+     * Transform format information to a readable format
+     *
+     * @param array $formats Array of format information
+     * @return array Transformed format information
+     */
+    public function transformFormats(array $formats): array
     {
         $results = [];
 

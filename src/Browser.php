@@ -2,6 +2,9 @@
 
 namespace YouTube;
 
+/**
+ * HTTP client for making requests to YouTube
+ */
 class Browser
 {
     protected $storage_dir;
@@ -17,12 +20,23 @@ class Browser
         $this->cookie_file = join(DIRECTORY_SEPARATOR, [sys_get_temp_dir(), $filename]);
     }
 
-    public function getCookieFile()
+    /**
+     * Get the cookie file path
+     *
+     * @return string Path to the cookie file
+     */
+    public function getCookieFile(): string
     {
         return $this->cookie_file;
     }
 
-    public function get($url)
+    /**
+     * Make a GET request to the specified URL
+     *
+     * @param string $url URL to request
+     * @return string Response content
+     */
+    public function get(string $url): string
     {
         $ch = curl_init($url);
 
@@ -46,7 +60,13 @@ class Browser
         return $result;
     }
 
-    public function getCached($url)
+    /**
+     * Get cached content or fetch from URL if not cached
+     *
+     * @param string $url URL to fetch
+     * @return string|null Cached or fetched content
+     */
+    public function getCached(string $url): ?string
     {
         $cache_path = sprintf('%s/%s', $this->storage_dir, $this->getCacheKey($url));
 
@@ -68,7 +88,13 @@ class Browser
         return null;
     }
 
-    public function head($url)
+    /**
+     * Make a HEAD request to the specified URL
+     *
+     * @param string $url URL to request
+     * @return array Response headers
+     */
+    public function head(string $url): array
     {
         $ch = curl_init($url);
 
@@ -88,7 +114,13 @@ class Browser
 
     }
 
-    protected function getCacheKey($url)
+    /**
+     * Get cache key for a URL
+     *
+     * @param string $url URL to generate cache key for
+     * @return string MD5 hash of the URL
+     */
+    protected function getCacheKey(string $url): string
     {
         return md5($url);
     }
